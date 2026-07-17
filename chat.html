@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. SportsMed - المساعد الطبي الذكي</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 12h4l2-7 4 14 2-7h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1>Dr. SportsMed</h1>
+                    <span class="tagline">CLINICAL AI ASSISTANT</span>
+                </div>
+            </div>
+
+            <button class="new-chat-btn" onclick="createNewConversation()">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+                </svg>
+                <span>محادثة جديدة</span>
+            </button>
+
+            <div class="conversations-list" id="conversationsList">
+                <!-- المحادثات -->
+            </div>
+
+            <div class="user-info">
+                <span>
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
+                        <path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    {{ username }}
+                </span>
+                <a href="{{ url_for('logout') }}" class="logout-btn">
+                    <span>خروج</span>
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="chat-header">
+                <div class="chat-header-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 12h4l2-7 4 14 2-7h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h2 id="conversationTitle">محادثة جديدة</h2>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-screen" id="welcomeScreen">
+                    <div class="welcome-logo">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 12h4l2-7 4 14 2-7h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h2>مرحباً بك في Dr. SportsMed</h2>
+                    <p>مساعدك الذكي المتخصص في الطب الرياضي والتدليك والعلاج الطبيعي</p>
+                    <p>اسألني عن الإصابات الرياضية، برامج التأهيل، أو أي استفسار طبي رياضي</p>
+
+                    <div class="suggestions">
+                        <button onclick="askSuggestion('ما هي أعراض قطع الرباط الصليبي الأمامي؟')">
+                            أعراض قطع الرباط الصليبي
+                        </button>
+                        <button onclick="askSuggestion('كيف يتم علاج الشد العضلي في الرياضة؟')">
+                            علاج الشد العضلي
+                        </button>
+                        <button onclick="askSuggestion('ما هي تمارين التأهيل بعد الكسور؟')">
+                            تمارين التأهيل بعد الكسور
+                        </button>
+                        <button onclick="askSuggestion('ما هي أنواع التدليك العلاجي والرياضي؟')">
+                            أنواع التدليك العلاجي
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <input
+                    type="text"
+                    id="messageInput"
+                    placeholder="اكتب سؤالك هنا..."
+                    onkeypress="handleKeyPress(event)"
+                    autocomplete="off"
+                >
+                <button onclick="sendMessage()" id="sendBtn">
+                    <span>إرسال</span>
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 12h16M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button onclick="stopGeneration()" id="stopBtn" title="إيقاف الرد">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor"/>
+                    </svg>
+                    <span>إيقاف</span>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+</html>
