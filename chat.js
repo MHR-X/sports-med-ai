@@ -292,12 +292,8 @@ async function sendMessage() {
             }
         }
 
-        // إزالة الكيرسور وعرض النص النهائي مع المصادر
-        let sourcesHtml = '';
-        if (sourcesList.length > 0) {
-            sourcesHtml = `<div class="sources"><strong>المصادر:</strong><br>${sourcesList.join('، ')}</div>`;
-        }
-        contentDiv.innerHTML = renderMarkdown(fullText) + sourcesHtml;
+        // إزالة الكيرسور وعرض النص النهائي (المصادر بتتعرض جوه نص الرد نفسه بالفعل)
+        contentDiv.innerHTML = renderMarkdown(fullText);
 
         await loadConversations();
 
@@ -328,16 +324,6 @@ function addMessageToChat(role, content, sources = '', animate = true) {
 
     const avatarSvg = role === 'user' ? ICON_USER : ICON_BOT;
 
-    let sourcesHtml = '';
-    if (sources && sources !== '[]' && role === 'assistant') {
-        let sourcesText = sources;
-        try {
-            const parsed = JSON.parse(sources.replace(/'/g, '"'));
-            if (Array.isArray(parsed)) sourcesText = parsed.join('، ');
-        } catch (e) { /* استخدم النص زي ما هو */ }
-        sourcesHtml = `<div class="sources"><strong>المصادر:</strong><br>${sourcesText}</div>`;
-    }
-
     const renderedContent = role === 'assistant' ? renderMarkdown(content) : content;
 
     messageDiv.innerHTML = `
@@ -345,7 +331,6 @@ function addMessageToChat(role, content, sources = '', animate = true) {
             <div class="message-avatar">${avatarSvg}</div>
             <div class="message-content">
                 ${renderedContent}
-                ${sourcesHtml}
             </div>
         </div>
     `;
